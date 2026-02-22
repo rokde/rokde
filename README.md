@@ -216,16 +216,6 @@ echo $engine->execute($userScript);        // PII stays yours, logic stays their
 
 ---
 
-## 📊 Stats
-
-<div align="center">
-
-[![GitHub Stats](https://github-readme-stats.vercel.app/api?username=rokde&show_icons=true&theme=dark&bg_color=050b18&title_color=60a5fa&icon_color=10b981&text_color=94a3b8&border_color=1a2f50&hide_border=false&count_private=true)](https://github.com/rokde)
-
-[![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=rokde&layout=compact&theme=dark&bg_color=050b18&title_color=60a5fa&text_color=94a3b8&border_color=1a2f50&hide_border=false)](https://github.com/rokde)
-
-</div>
-
 ### GitHub Achievements
 
 🦈 Pull Shark ×3 &nbsp;·&nbsp; 👥 Pair Extraordinaire &nbsp;·&nbsp; ⚡ Quickdraw &nbsp;·&nbsp; 🌍 Arctic Code Vault Contributor &nbsp;·&nbsp; ⭐ Starstruck
