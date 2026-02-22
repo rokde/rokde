@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 200" width="860" height="200">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0d1629"/>
+      <stop offset="100%" stop-color="#080f20"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <path id="pp1" d="M188,95 C280,95 350,100 430,100 C510,100 580,95 672,95" fill="none"/>
+    <path id="pp2" d="M188,85 C280,85 350,90 430,88 C510,86 580,82 672,82" fill="none"/>
+    <path id="pp3" d="M188,108 C280,108 350,106 430,112 C510,118 580,110 672,108" fill="none"/>
+  </defs>
+
+  <!-- Background -->
+  <rect width="860" height="200" rx="14" fill="url(#bgGrad)" stroke="#1a2f50" stroke-width="1"/>
+
+  <!-- Lane dashed lines -->
+  <line x1="188" y1="95" x2="362" y2="95" stroke="rgba(239,68,68,0.2)" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <line x1="498" y1="95" x2="672" y2="95" stroke="rgba(16,185,129,0.25)" stroke-width="1.5" stroke-dasharray="5,4"/>
+
+  <!-- ── PRODUCTION DB ── -->
+  <g transform="translate(20,28)">
+    <ellipse cx="84" cy="132" rx="52" ry="7" fill="rgba(239,68,68,0.05)"/>
+    <rect x="32" y="26" width="104" height="98" rx="5" fill="#0d0404" stroke="rgba(239,68,68,0.45)" stroke-width="1.5"/>
+    <ellipse cx="84" cy="26" rx="52" ry="15" fill="#160707" stroke="rgba(239,68,68,0.55)" stroke-width="1.5"/>
+    <ellipse cx="84" cy="124" rx="52" ry="15" fill="#0d0404" stroke="rgba(239,68,68,0.3)" stroke-width="1"/>
+    <line x1="32" y1="64" x2="136" y2="64" stroke="rgba(239,68,68,0.1)" stroke-width="1"/>
+    <line x1="32" y1="88" x2="136" y2="88" stroke="rgba(239,68,68,0.1)" stroke-width="1"/>
+    <text x="84" y="52" text-anchor="middle" font-size="22">🏭</text>
+    <text x="84" y="105" text-anchor="middle" fill="rgba(239,68,68,0.7)" font-family="'Courier New',monospace" font-size="8" letter-spacing="0.5">PRODUCTION</text>
+    <circle cx="132" cy="19" r="4.5" fill="#ef4444">
+      <animate attributeName="opacity" values="1;0.3;1" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+    <text x="84" y="152" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Production DB</text>
+    <text x="84" y="166" text-anchor="middle" fill="#4a6080" font-family="'Courier New',monospace" font-size="8">PII present</text>
+  </g>
+
+  <!-- ── PARTICLES ── -->
+  <circle r="4.5" fill="#ef4444" filter="url(#glow)">
+    <animateMotion dur="2.8s" repeatCount="indefinite" begin="0s"><mpath href="#pp1"/></animateMotion>
+    <animate attributeName="opacity" values="0;1;1;1;0" dur="2.8s" repeatCount="indefinite" begin="0s"/>
+    <animate attributeName="fill" values="#ef4444;#ef4444;#f59e0b;#10b981;#10b981" dur="2.8s" repeatCount="indefinite" begin="0s"/>
+  </circle>
+  <circle r="4.5" fill="#ef4444" filter="url(#glow)">
+    <animateMotion dur="2.8s" repeatCount="indefinite" begin="0.93s"><mpath href="#pp1"/></animateMotion>
+    <animate attributeName="opacity" values="0;1;1;1;0" dur="2.8s" repeatCount="indefinite" begin="0.93s"/>
+    <animate attributeName="fill" values="#ef4444;#ef4444;#f59e0b;#10b981;#10b981" dur="2.8s" repeatCount="indefinite" begin="0.93s"/>
+  </circle>
+  <circle r="4.5" fill="#ef4444" filter="url(#glow)">
+    <animateMotion dur="2.8s" repeatCount="indefinite" begin="1.86s"><mpath href="#pp1"/></animateMotion>
+    <animate attributeName="opacity" values="0;1;1;1;0" dur="2.8s" repeatCount="indefinite" begin="1.86s"/>
+    <animate attributeName="fill" values="#ef4444;#ef4444;#f59e0b;#10b981;#10b981" dur="2.8s" repeatCount="indefinite" begin="1.86s"/>
+  </circle>
+  <circle r="3" fill="#f59e0b">
+    <animateMotion dur="2.8s" repeatCount="indefinite" begin="0.45s"><mpath href="#pp2"/></animateMotion>
+    <animate attributeName="opacity" values="0;0.8;0.8;0" dur="2.8s" repeatCount="indefinite" begin="0.45s"/>
+    <animate attributeName="fill" values="#f59e0b;#f59e0b;#34d399" dur="2.8s" repeatCount="indefinite" begin="0.45s"/>
+  </circle>
+  <circle r="3" fill="#f59e0b">
+    <animateMotion dur="2.8s" repeatCount="indefinite" begin="1.4s"><mpath href="#pp2"/></animateMotion>
+    <animate attributeName="opacity" values="0;0.8;0.8;0" dur="2.8s" repeatCount="indefinite" begin="1.4s"/>
+    <animate attributeName="fill" values="#f59e0b;#f59e0b;#34d399" dur="2.8s" repeatCount="indefinite" begin="1.4s"/>
+  </circle>
+  <circle r="3" fill="#ec4899">
+    <animateMotion dur="2.8s" repeatCount="indefinite" begin="2.1s"><mpath href="#pp3"/></animateMotion>
+    <animate attributeName="opacity" values="0;0.8;0.8;0" dur="2.8s" repeatCount="indefinite" begin="2.1s"/>
+    <animate attributeName="fill" values="#ec4899;#ec4899;#10b981" dur="2.8s" repeatCount="indefinite" begin="2.1s"/>
+  </circle>
+
+  <!-- ── CLONIO SHIELD ── -->
+  <g transform="translate(360,10)">
+    <circle cx="70" cy="90" r="55" fill="none" stroke="rgba(16,185,129,0.12)" stroke-width="1">
+      <animate attributeName="r" values="55;76;55" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0;0.5" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="70" cy="90" r="55" fill="none" stroke="rgba(59,130,246,0.08)" stroke-width="1">
+      <animate attributeName="r" values="55;82;55" dur="3s" begin="1.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0;0.4" dur="3s" begin="1.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="70" cy="90" r="50" fill="rgba(16,185,129,0.05)" filter="url(#softglow)"/>
+    <circle cx="70" cy="90" r="50" fill="rgba(16,185,129,0.05)" stroke="url(#shieldGrad)" stroke-width="1.5"/>
+    <path d="M70 38 L100 52 L100 88 C100 112 85 128 70 138 C55 128 40 112 40 88 L40 52 Z"
+          fill="rgba(16,185,129,0.12)" stroke="url(#shieldGrad)" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="60" y="84" width="20" height="16" rx="3" fill="rgba(16,185,129,0.5)" stroke="rgba(16,185,129,0.8)" stroke-width="1"/>
+    <path d="M65 84 L65 78 C65 73 75 73 75 78 L75 84" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="70" cy="91" r="2.5" fill="#34d399"/>
+    <text x="70" y="157" text-anchor="middle" fill="#10b981" font-family="system-ui,sans-serif" font-size="12" font-weight="700">Clonio</text>
+    <text x="70" y="170" text-anchor="middle" fill="#4a6080" font-family="'Courier New',monospace" font-size="8">Anonymization</text>
+  </g>
+
+  <!-- ── TEST DB ── -->
+  <g transform="translate(628,28)">
+    <ellipse cx="84" cy="132" rx="52" ry="7" fill="rgba(16,185,129,0.05)"/>
+    <rect x="32" y="26" width="104" height="98" rx="5" fill="#030f08" stroke="rgba(16,185,129,0.45)" stroke-width="1.5"/>
+    <ellipse cx="84" cy="26" rx="52" ry="15" fill="#061710" stroke="rgba(16,185,129,0.55)" stroke-width="1.5"/>
+    <ellipse cx="84" cy="124" rx="52" ry="15" fill="#030f08" stroke="rgba(16,185,129,0.3)" stroke-width="1"/>
+    <line x1="32" y1="64" x2="136" y2="64" stroke="rgba(16,185,129,0.1)" stroke-width="1"/>
+    <line x1="32" y1="88" x2="136" y2="88" stroke="rgba(16,185,129,0.1)" stroke-width="1"/>
+    <text x="84" y="52" text-anchor="middle" font-size="22">🧪</text>
+    <text x="84" y="105" text-anchor="middle" fill="rgba(16,185,129,0.7)" font-family="'Courier New',monospace" font-size="8" letter-spacing="0.5">SAFE DATA</text>
+    <circle cx="132" cy="19" r="4.5" fill="#10b981">
+      <animate attributeName="opacity" values="1;0.5;1" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <text x="84" y="152" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Test / Dev DB</text>
+    <text x="84" y="166" text-anchor="middle" fill="#10b981" font-family="'Courier New',monospace" font-size="8">GDPR Compliant ✓</text>
+  </g>
+
+  <!-- Labels -->
+  <text x="275" y="82" text-anchor="middle" fill="rgba(239,68,68,0.5)" font-family="'Courier New',monospace" font-size="8.5">raw PII</text>
+  <text x="585" y="82" text-anchor="middle" fill="rgba(16,185,129,0.65)" font-family="'Courier New',monospace" font-size="8.5">anonymized ✓</text>
+</svg>

@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robert Kummer · @rokde · Laravel Artisan</title>
+    <meta name="description" content="Robert Kummer — Senior Laravel developer since 2001. Creator of Clonio (GDPR-compliant DB cloning) and PHP Script (embedded scripting language for PHP apps).">
+    <style>
+        :root {
+            --bg-0: #050b18;
+            --bg-1: #080f20;
+            --bg-2: #0d1629;
+            --surface: #0f1d35;
+            --surface-2: #132240;
+            --border: #1a2f50;
+            --border-light: #254570;
+            --blue: #3b82f6;
+            --blue-light: #60a5fa;
+            --blue-dark: #1d4ed8;
+            --green: #10b981;
+            --green-light: #34d399;
+            --amber: #f59e0b;
+            --red: #ef4444;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --text-dim: #4a6080;
+            --font-display: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+            --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, 'Courier New', monospace;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-0);
+            color: var(--text);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 1rem 2rem;
+            display: flex; align-items: center; justify-content: space-between;
+            backdrop-filter: blur(24px);
+            background: rgba(5, 11, 24, 0.75);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s;
+        }
+        .nav-logo {
+            font-family: var(--font-mono); font-size: 0.875rem;
+            color: var(--blue-light); text-decoration: none; letter-spacing: 0.04em;
+        }
+        .nav-logo .dim { color: var(--text-dim); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a {
+            color: var(--text-muted); text-decoration: none; font-size: 0.8rem;
+            letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--text); }
+        @media (max-width: 640px) { .nav-links { display: none; } }
+
+        /* ── HERO ── */
+        #hero {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden; padding: 100px 2rem 4rem;
+        }
+        .hero-grid {
+            position: absolute; inset: 0; pointer-events: none;
+            background-image:
+                linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px);
+            background-size: 70px 70px;
+            animation: gridDrift 30s linear infinite;
+        }
+        @keyframes gridDrift {
+            from { background-position: 0 0; }
+            to   { background-position: 70px 70px; }
+        }
+        .hero-orb {
+            position: absolute; border-radius: 50%; pointer-events: none;
+        }
+        .hero-orb-1 {
+            width: 700px; height: 700px;
+            background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 65%);
+            top: 50%; left: 40%; transform: translate(-50%, -50%);
+            animation: orbFloat 8s ease-in-out infinite;
+        }
+        .hero-orb-2 {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 65%);
+            top: 30%; right: 10%;
+            animation: orbFloat 10s ease-in-out infinite reverse;
+        }
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50%       { transform: translate(-50%, -52%) scale(1.05); }
+        }
+        .hero-content {
+            position: relative; z-index: 1; text-align: center; max-width: 860px;
+        }
+        .hero-eyebrow {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.25);
+            border-radius: 100px; padding: 0.35rem 1rem;
+            font-family: var(--font-mono); font-size: 0.72rem; color: var(--blue-light);
+            margin-bottom: 2.25rem; letter-spacing: 0.06em;
+            animation: fadeDown 0.7s ease both;
+        }
+        .live-dot {
+            width: 7px; height: 7px; border-radius: 50%; background: var(--green);
+            animation: livePulse 2.2s ease-in-out infinite;
+        }
+        @keyframes livePulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); }
+            50%       { box-shadow: 0 0 0 5px rgba(16,185,129,0); }
+        }
+        .hero-name {
+            font-family: var(--font-display);
+            font-size: clamp(3.2rem, 9vw, 6.5rem);
+            font-weight: 400; letter-spacing: -0.02em; line-height: 1.05;
+            margin-bottom: 0.6rem;
+            animation: fadeUp 0.7s ease 0.1s both;
+        }
+        .hero-name .first { color: var(--text); }
+        .hero-name .last {
+            background: linear-gradient(135deg, var(--blue-light) 0%, var(--green-light) 100%);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-handle {
+            font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-dim);
+            margin-bottom: 1.75rem; letter-spacing: 0.04em;
+            animation: fadeUp 0.7s ease 0.2s both;
+        }
+        .hero-since {
+            color: var(--amber); background: rgba(245,158,11,0.1);
+            border: 1px solid rgba(245,158,11,0.2);
+            padding: 0.2rem 0.65rem; border-radius: 4px; font-size: 0.72rem;
+        }
+        .hero-tagline {
+            font-size: 1.125rem; color: var(--text-muted); max-width: 580px;
+            margin: 0 auto 2.75rem; line-height: 1.75;
+            animation: fadeUp 0.7s ease 0.3s both;
+        }
+        .hero-tagline strong { color: var(--text); }
+        .hero-cta {
+            display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+            animation: fadeUp 0.7s ease 0.4s both;
+        }
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: var(--blue); color: white; text-decoration: none;
+            padding: 0.75rem 1.75rem; border-radius: 8px;
+            font-size: 0.875rem; font-weight: 500; letter-spacing: 0.02em;
+            transition: all 0.2s; border: 1px solid transparent;
+        }
+        .btn-primary:hover {
+            background: var(--blue-light); transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(59,130,246,0.4);
+        }
+        .btn-secondary {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: transparent; color: var(--text-muted); text-decoration: none;
+            padding: 0.75rem 1.75rem; border: 1px solid var(--border); border-radius: 8px;
+            font-size: 0.875rem; transition: all 0.2s;
+        }
+        .btn-secondary:hover {
+            border-color: var(--border-light); color: var(--text); transform: translateY(-2px);
+        }
+        .btn-green {
+            background: var(--green) !important;
+            box-shadow: none !important;
+        }
+        .btn-green:hover {
+            background: var(--green-light) !important;
+            box-shadow: 0 8px 28px rgba(16,185,129,0.4) !important;
+        }
+        .scroll-hint {
+            position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+            color: var(--text-dim); font-family: var(--font-mono); font-size: 0.65rem;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            animation: fadeIn 1s ease 1.5s both;
+        }
+        .scroll-line {
+            width: 1px; height: 36px;
+            background: linear-gradient(to bottom, transparent, var(--border-light));
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+        @keyframes scrollPulse {
+            0%   { transform: scaleY(0); transform-origin: top; opacity: 0; }
+            45%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+            55%  { transform: scaleY(1); transform-origin: bottom; opacity: 1; }
+            100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+        }
+
+        /* ── SHARED ── */
+        .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border) 30%, var(--border) 70%, transparent); }
+
+        .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        .section-label {
+            display: block; font-family: var(--font-mono); font-size: 0.68rem;
+            letter-spacing: 0.22em; text-transform: uppercase; color: var(--blue);
+            margin-bottom: 0.75rem;
+        }
+        .section-title {
+            font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.25rem);
+            font-weight: 400; line-height: 1.15; margin-bottom: 1.25rem;
+        }
+        .section-desc { font-size: 1.0625rem; color: var(--text-muted); max-width: 560px; line-height: 1.8; }
+
+        .inner { max-width: 1160px; margin: 0 auto; padding: 5.5rem 2rem; }
+
+        /* ── CLONIO FEATURE ── */
+        #clonio {
+            background: linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 40%, var(--bg-0) 100%);
+            border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+        }
+        .clonio-header { text-align: center; margin-bottom: 3.5rem; }
+        .clonio-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.25);
+            border-radius: 100px; padding: 0.35rem 1rem;
+            font-family: var(--font-mono); font-size: 0.72rem; color: var(--green);
+            margin-bottom: 1.5rem; letter-spacing: 0.06em;
+        }
+        .clonio-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.8rem, 7vw, 5rem);
+            font-weight: 400; line-height: 1;
+            background: linear-gradient(135deg, #fff 20%, var(--green-light) 100%);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        .clonio-subtitle {
+            font-size: 1.125rem; color: var(--text-muted);
+            max-width: 680px; margin: 0 auto 1.5rem; line-height: 1.75;
+        }
+        .tag-row { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 0.5rem; }
+        .tag {
+            font-family: var(--font-mono); font-size: 0.72rem;
+            padding: 0.25rem 0.7rem; border-radius: 4px; border: 1px solid;
+        }
+        .tag-green { color: var(--green); background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); }
+        .tag-blue  { color: var(--blue-light); background: rgba(59,130,246,0.08); border-color: rgba(59,130,246,0.2); }
+        .tag-dim   { color: var(--text-muted); background: var(--bg-2); border-color: var(--border); }
+
+        /* ── DATA FLOW SVG ── */
+        .flow-wrap {
+            margin: 3.5rem auto;
+            max-width: 920px;
+            background: var(--bg-2);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .flow-wrap::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 50% 50%, rgba(16,185,129,0.05) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .flow-svg { width: 100%; display: block; overflow: visible; }
+
+        /* ── FEATURES GRID ── */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem; margin-top: 2.75rem;
+        }
+        .feature-card {
+            background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+            padding: 1.5rem; transition: all 0.3s; position: relative; overflow: hidden;
+        }
+        .feature-card::after {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--green), transparent);
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .feature-card:hover { border-color: rgba(16,185,129,0.3); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .feature-card:hover::after { opacity: 1; }
+        .feature-icon { font-size: 1.375rem; margin-bottom: 0.75rem; }
+        .feature-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.45rem; color: var(--text); }
+        .feature-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; }
+
+        /* ── DB BADGES ── */
+        .db-row { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; margin-top: 2.25rem; }
+        .db-badge {
+            background: var(--bg-2); border: 1px solid var(--border); border-radius: 8px;
+            padding: 0.45rem 1rem; font-family: var(--font-mono); font-size: 0.78rem;
+            color: var(--text-muted); display: flex; align-items: center; gap: 0.45rem;
+            transition: all 0.2s;
+        }
+        .db-badge:hover { border-color: var(--border-light); color: var(--text); }
+        .db-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+
+        /* ── PRICING ── */
+        .pricing-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 1.25rem; margin-top: 2.75rem;
+        }
+        .pricing-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 16px; padding: 2rem; text-align: center; transition: all 0.3s;
+        }
+        .pricing-card.featured {
+            background: linear-gradient(150deg, rgba(16,185,129,0.09), rgba(59,130,246,0.09));
+            border-color: rgba(16,185,129,0.35);
+            transform: scale(1.03);
+        }
+        .pricing-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .pricing-card.featured:hover { transform: scale(1.03) translateY(-5px); }
+        .pricing-name {
+            font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase;
+            letter-spacing: 0.15em; color: var(--text-muted); margin-bottom: 1rem;
+        }
+        .pricing-price { font-size: 2.6rem; font-weight: 700; line-height: 1; margin-bottom: 0.35rem; }
+        .pricing-price .curr { font-size: 1.2rem; font-weight: 400; color: var(--text-muted); vertical-align: super; }
+        .pricing-price .per { font-size: 0.9rem; font-weight: 400; color: var(--text-muted); }
+        .pricing-period { font-size: 0.75rem; color: var(--text-dim); margin-bottom: 1.25rem; }
+        .pricing-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.65; }
+
+        /* ── TECH STACK ── */
+        .stack-grid { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 2rem; }
+        .stack-badge {
+            display: flex; align-items: center; gap: 0.45rem;
+            background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+            padding: 0.45rem 0.9rem; font-size: 0.8125rem; font-weight: 500; transition: all 0.2s;
+        }
+        .stack-badge:hover { border-color: var(--border-light); transform: translateY(-2px); }
+        .bdot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+        /* ── CODE SNIPPET ── */
+        .code-block {
+            background: #04090f; border: 1px solid var(--border); border-radius: 12px;
+            padding: 1.5rem 1.75rem; font-family: var(--font-mono); font-size: 0.8rem;
+            line-height: 1.8; display: inline-block; text-align: left; margin-top: 3rem;
+            max-width: 100%; overflow-x: auto;
+        }
+        .ck { color: #818cf8; }
+        .cs { color: #34d399; }
+        .cc { color: var(--text-dim); }
+        .cf { color: var(--blue-light); }
+        .ct { color: var(--amber); }
+        .cn { color: #f472b6; }
+
+        /* ── TIMELINE ── */
+        #timeline-section { overflow: hidden; }
+        .timeline-track {
+            display: flex; margin-top: 3rem;
+            overflow-x: auto; padding-bottom: 1.5rem;
+            scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+            position: relative;
+        }
+        .timeline-track::before {
+            content: ''; position: absolute; top: 50px; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border) 5%, var(--border-light) 50%, var(--border) 95%, transparent);
+        }
+        .tl-item {
+            flex: 0 0 210px; padding: 0 1.25rem; position: relative;
+            opacity: 0; transform: translateY(16px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .tl-item.visible { opacity: 1; transform: translateY(0); }
+        .tl-dot {
+            width: 12px; height: 12px; border-radius: 50%; background: var(--blue);
+            border: 2px solid var(--bg-0); margin: 44px auto 1.4rem;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+        }
+        .tl-item.hi .tl-dot {
+            background: var(--green); width: 16px; height: 16px;
+            margin: 42px auto 1.4rem; box-shadow: 0 0 0 4px rgba(16,185,129,0.2);
+        }
+        .tl-year { font-family: var(--font-mono); font-size: 0.72rem; color: var(--blue-light); margin-bottom: 0.4rem; text-align: center; }
+        .tl-item.hi .tl-year { color: var(--green); }
+        .tl-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem; text-align: center; }
+        .tl-desc { font-size: 0.73rem; color: var(--text-muted); line-height: 1.55; text-align: center; }
+
+        /* ── PACKAGES ── */
+        .packages-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(295px, 1fr));
+            gap: 1rem; margin-top: 2.5rem;
+        }
+        .pkg-card {
+            background: var(--surface); border: 1px solid var(--border); border-radius: 13px;
+            padding: 1.5rem; text-decoration: none; color: var(--text);
+            display: flex; flex-direction: column; gap: 0.85rem;
+            transition: all 0.3s;
+        }
+        .pkg-card:hover {
+            border-color: rgba(59,130,246,0.35); background: var(--surface-2);
+            transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.35);
+        }
+        .pkg-head { display: flex; align-items: flex-start; justify-content: space-between; }
+        .pkg-name { font-family: var(--font-mono); font-size: 0.85rem; color: var(--blue-light); margin-bottom: 0.2rem; }
+        .pkg-org { font-size: 0.72rem; color: var(--text-dim); }
+        .pkg-stars { display: flex; align-items: center; gap: 0.2rem; font-size: 0.75rem; color: var(--amber); }
+        .pkg-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.65; flex: 1; }
+        .pkg-foot { display: flex; align-items: center; gap: 0.375rem; font-size: 0.73rem; color: var(--text-dim); }
+        .lang-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+        /* ── STATS ── */
+        #stats-section {
+            border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+            background: linear-gradient(180deg, var(--bg-1), var(--bg-0));
+        }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 2rem; text-align: center;
+        }
+        .stat-num {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 3.75rem);
+            font-weight: 400; line-height: 1; margin-bottom: 0.4rem;
+            background: linear-gradient(135deg, var(--text) 0%, var(--blue-light) 100%);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-label { font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+        /* ── ACHIEVEMENTS ── */
+        .ach-row { display: flex; flex-wrap: wrap; gap: 0.65rem; justify-content: center; margin-top: 2.75rem; }
+        .ach {
+            display: flex; align-items: center; gap: 0.45rem;
+            background: var(--surface); border: 1px solid var(--border); border-radius: 100px;
+            padding: 0.35rem 0.9rem; font-size: 0.8rem; color: var(--text-muted);
+            transition: all 0.2s;
+        }
+        .ach:hover { border-color: var(--border-light); color: var(--text); }
+
+        /* ── FOOTER ── */
+        footer { padding: 3rem 2rem; text-align: center; }
+        .footer-links {
+            display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 1.75rem;
+        }
+        .footer-links a {
+            color: var(--text-muted); text-decoration: none; font-size: 0.875rem;
+            display: flex; align-items: center; gap: 0.375rem; transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--text); }
+        .footer-copy { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim); }
+
+        /* ── KEYFRAMES ── */
+        @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeUp   { from { opacity: 0; transform: translateY(20px); }  to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn   { from { opacity: 0; }                               to { opacity: 1; } }
+
+        /* ── PHP SCRIPT SECTION ── */
+        --purple: #a855f7;
+        --purple-light: #c084fc;
+        --indigo: #6366f1;
+
+        #phpscript {
+            border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+            background: linear-gradient(180deg, var(--bg-0) 0%, #0a0816 50%, var(--bg-0) 100%);
+        }
+        .ps-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.25);
+            border-radius: 100px; padding: 0.35rem 1rem;
+            font-family: var(--font-mono); font-size: 0.72rem; color: #c084fc;
+            margin-bottom: 1.5rem; letter-spacing: 0.06em;
+        }
+        .ps-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.8rem, 7vw, 5rem);
+            font-weight: 400; line-height: 1;
+            background: linear-gradient(135deg, #fff 20%, #c084fc 100%);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        .ps-subtitle {
+            font-size: 1.125rem; color: var(--text-muted);
+            max-width: 680px; margin: 0 auto 1.5rem; line-height: 1.75;
+        }
+        .tag-purple { color: #c084fc; background: rgba(168,85,247,0.08); border-color: rgba(168,85,247,0.2); }
+
+        .ps-split {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+            align-items: start; margin-top: 3.5rem;
+        }
+        @media (max-width: 768px) { .ps-split { grid-template-columns: 1fr; gap: 2rem; } }
+
+        .ps-features { display: flex; flex-direction: column; gap: 1rem; }
+        .ps-feature {
+            display: flex; gap: 1rem; align-items: flex-start;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; padding: 1.1rem 1.25rem; transition: all 0.3s;
+        }
+        .ps-feature:hover { border-color: rgba(168,85,247,0.3); transform: translateX(4px); }
+        .ps-feature-icon { font-size: 1.25rem; flex-shrink: 0; margin-top: 0.1rem; }
+        .ps-feature-title { font-size: 0.875rem; font-weight: 600; margin-bottom: 0.2rem; }
+        .ps-feature-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.55; }
+
+        .ps-code-wrap {
+            background: #04030d; border: 1px solid rgba(168,85,247,0.2);
+            border-radius: 14px; overflow: hidden; position: sticky; top: 100px;
+        }
+        .ps-code-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.75rem 1.25rem;
+            background: rgba(168,85,247,0.06); border-bottom: 1px solid rgba(168,85,247,0.15);
+        }
+        .ps-code-title { font-family: var(--font-mono); font-size: 0.72rem; color: #c084fc; letter-spacing: 0.08em; }
+        .ps-code-dots { display: flex; gap: 0.4rem; }
+        .ps-code-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .ps-code-body { padding: 1.5rem 1.5rem; font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.9; overflow-x: auto; }
+        .psk  { color: #c084fc; }   /* keyword */
+        .pss  { color: #86efac; }   /* string */
+        .psc  { color: #475569; }   /* comment */
+        .psv  { color: #e2e8f0; }   /* variable */
+        .psm  { color: #93c5fd; }   /* method/fn */
+        .psn  { color: #fbbf24; }   /* number */
+        .pso  { color: #f472b6; }   /* operator/punct */
+
+        .ps-cta { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+        .btn-purple {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: #7c3aed; color: white; text-decoration: none;
+            padding: 0.75rem 1.75rem; border-radius: 8px;
+            font-size: 0.875rem; font-weight: 500; transition: all 0.2s;
+        }
+        .btn-purple:hover {
+            background: #a855f7; transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(168,85,247,0.4);
+        }
+    </style>
+</head>
+<body>
+
+<!-- ──────── NAV ──────── -->
+<nav id="nav">
+    <a class="nav-logo" href="#hero"><span class="dim">~/ </span>rokde</a>
+    <ul class="nav-links">
+        <li><a href="#clonio">Clonio</a></li>
+        <li><a href="#phpscript">PHP Script</a></li>
+        <li><a href="#stack-section">Stack</a></li>
+        <li><a href="#timeline-section">Journey</a></li>
+        <li><a href="#packages-section">Packages</a></li>
+        <li><a href="https://github.com/rokde" target="_blank" rel="noopener">GitHub ↗</a></li>
+    </ul>
+</nav>
+
+<!-- ──────── HERO ──────── -->
+<section id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+
+    <div class="hero-content">
+        <div class="hero-eyebrow">
+            <span class="live-dot"></span>
+            Based in Germany · Available for projects
+        </div>
+        <h1 class="hero-name">
+            <span class="first">Robert&nbsp;</span><span class="last">Kummer</span>
+        </h1>
+        <p class="hero-handle">
+            @rokde &nbsp;·&nbsp;
+            <span class="hero-since">PHP artisan since 2001</span>
+        </p>
+        <p class="hero-tagline">
+            Senior <strong>Laravel developer</strong> crafting elegant architectures with
+            <strong>Inertia.js</strong> &amp; <strong>Vue.js</strong>. Building production-grade tools
+            for developers who care about data privacy and clean code.
+        </p>
+        <div class="hero-cta">
+            <a href="#clonio" class="btn-primary">⚡ Featured Project: Clonio</a>
+            <a href="https://github.com/rokde" target="_blank" rel="noopener" class="btn-secondary">GitHub Profile ↗</a>
+        </div>
+    </div>
+
+    <div class="scroll-hint">
+        scroll
+        <div class="scroll-line"></div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ──────── CLONIO ──────── -->
+<div id="clonio">
+    <div class="inner">
+        <div class="clonio-header reveal">
+            <div class="clonio-badge">🛡️ &nbsp;Featured Project &nbsp;·&nbsp; clonio-dev</div>
+            <h2 class="clonio-title">Clonio</h2>
+            <p class="clonio-subtitle">
+                A self-hosted, GDPR-compliant database cloning tool. Copy production databases into
+                development, testing, and staging — with PII anonymized in-flight, never leaving
+                your infrastructure boundary.
+            </p>
+            <div class="tag-row">
+                <span class="tag tag-green">v1.0.1 Released</span>
+                <span class="tag tag-dim">Self-Hosted</span>
+                <span class="tag tag-blue">GDPR Compliant</span>
+                <span class="tag tag-dim">PHP 8.4+ · Laravel · Vue 3 · Inertia.js</span>
+            </div>
+        </div>
+
+        <!-- ── DATA FLOW ANIMATION ── -->
+        <div class="flow-wrap reveal">
+            <svg class="flow-svg" viewBox="0 0 880 240" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#3b82f6"/>
+                        <stop offset="100%" stop-color="#10b981"/>
+                    </linearGradient>
+                    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="4" result="blur"/>
+                        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+                    <filter id="softglow" x="-100%" y="-100%" width="300%" height="300%">
+                        <feGaussianBlur stdDeviation="10" result="blur"/>
+                        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+                    <!-- Particle paths -->
+                    <path id="pp1" d="M200,115 C290,115 360,120 440,120 C520,120 590,115 680,115" fill="none"/>
+                    <path id="pp2" d="M200,125 C290,125 360,130 440,130 C520,130 590,125 680,125" fill="none"/>
+                    <path id="pp3" d="M200,135 C290,135 360,125 440,125 C520,125 590,135 680,135" fill="none"/>
+                </defs>
+
+                <!-- ── LANE LINES ── -->
+                <line x1="200" y1="120" x2="370" y2="120" stroke="rgba(239,68,68,0.18)" stroke-width="1.5" stroke-dasharray="5,4"/>
+                <line x1="510" y1="120" x2="680" y2="120" stroke="rgba(16,185,129,0.25)" stroke-width="1.5" stroke-dasharray="5,4"/>
+
+                <!-- ── PRODUCTION DB ── -->
+                <g transform="translate(30, 40)">
+                    <!-- Cylinder shadow -->
+                    <ellipse cx="85" cy="162" rx="58" ry="8" fill="rgba(239,68,68,0.06)"/>
+                    <!-- Body -->
+                    <rect x="27" y="30" width="116" height="115" rx="6" fill="#100505" stroke="rgba(239,68,68,0.45)" stroke-width="1.5"/>
+                    <!-- Top cap -->
+                    <ellipse cx="85" cy="30" rx="58" ry="17" fill="#1a0808" stroke="rgba(239,68,68,0.55)" stroke-width="1.5"/>
+                    <!-- Bottom cap -->
+                    <ellipse cx="85" cy="145" rx="58" ry="17" fill="#110606" stroke="rgba(239,68,68,0.3)" stroke-width="1"/>
+                    <!-- Horizontal grooves -->
+                    <line x1="27" y1="75" x2="143" y2="75" stroke="rgba(239,68,68,0.12)" stroke-width="1"/>
+                    <line x1="27" y1="105" x2="143" y2="105" stroke="rgba(239,68,68,0.12)" stroke-width="1"/>
+                    <!-- Icon -->
+                    <text x="85" y="62" text-anchor="middle" font-size="26">🏭</text>
+                    <!-- DB label -->
+                    <text x="85" y="120" text-anchor="middle" fill="rgba(239,68,68,0.7)" font-family="'Courier New',monospace" font-size="8.5" letter-spacing="0.8">PRODUCTION</text>
+                    <!-- Warning status -->
+                    <circle cx="138" cy="22" r="5" fill="#ef4444">
+                        <animate attributeName="opacity" values="1;0.3;1" dur="1.8s" repeatCount="indefinite"/>
+                    </circle>
+                    <!-- Caption -->
+                    <text x="85" y="178" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="12" font-weight="600">Production DB</text>
+                    <text x="85" y="193" text-anchor="middle" fill="#4a6080" font-family="'Courier New',monospace" font-size="8.5">PII data present</text>
+                </g>
+
+                <!-- ── PARTICLES ── -->
+                <!-- Wave 1 - main -->
+                <circle r="4.5" fill="#ef4444" filter="url(#glow)">
+                    <animateMotion dur="2.8s" repeatCount="indefinite" begin="0s"><mpath href="#pp1"/></animateMotion>
+                    <animate attributeName="opacity" values="0;1;1;1;0" dur="2.8s" repeatCount="indefinite" begin="0s"/>
+                    <animate attributeName="fill" values="#ef4444;#ef4444;#f59e0b;#10b981;#10b981" dur="2.8s" repeatCount="indefinite" begin="0s"/>
+                </circle>
+                <circle r="4.5" fill="#ef4444" filter="url(#glow)">
+                    <animateMotion dur="2.8s" repeatCount="indefinite" begin="0.93s"><mpath href="#pp1"/></animateMotion>
+                    <animate attributeName="opacity" values="0;1;1;1;0" dur="2.8s" repeatCount="indefinite" begin="0.93s"/>
+                    <animate attributeName="fill" values="#ef4444;#ef4444;#f59e0b;#10b981;#10b981" dur="2.8s" repeatCount="indefinite" begin="0.93s"/>
+                </circle>
+                <circle r="4.5" fill="#ef4444" filter="url(#glow)">
+                    <animateMotion dur="2.8s" repeatCount="indefinite" begin="1.86s"><mpath href="#pp1"/></animateMotion>
+                    <animate attributeName="opacity" values="0;1;1;1;0" dur="2.8s" repeatCount="indefinite" begin="1.86s"/>
+                    <animate attributeName="fill" values="#ef4444;#ef4444;#f59e0b;#10b981;#10b981" dur="2.8s" repeatCount="indefinite" begin="1.86s"/>
+                </circle>
+                <!-- Wave 2 - upper lane -->
+                <circle r="3" fill="#f59e0b">
+                    <animateMotion dur="2.8s" repeatCount="indefinite" begin="0.45s"><mpath href="#pp2"/></animateMotion>
+                    <animate attributeName="opacity" values="0;0.8;0.8;0" dur="2.8s" repeatCount="indefinite" begin="0.45s"/>
+                    <animate attributeName="fill" values="#f59e0b;#f59e0b;#34d399" dur="2.8s" repeatCount="indefinite" begin="0.45s"/>
+                </circle>
+                <circle r="3" fill="#f59e0b">
+                    <animateMotion dur="2.8s" repeatCount="indefinite" begin="1.4s"><mpath href="#pp2"/></animateMotion>
+                    <animate attributeName="opacity" values="0;0.8;0.8;0" dur="2.8s" repeatCount="indefinite" begin="1.4s"/>
+                    <animate attributeName="fill" values="#f59e0b;#f59e0b;#34d399" dur="2.8s" repeatCount="indefinite" begin="1.4s"/>
+                </circle>
+                <!-- Wave 3 - lower lane -->
+                <circle r="3" fill="#ec4899">
+                    <animateMotion dur="2.8s" repeatCount="indefinite" begin="2.1s"><mpath href="#pp3"/></animateMotion>
+                    <animate attributeName="opacity" values="0;0.8;0.8;0" dur="2.8s" repeatCount="indefinite" begin="2.1s"/>
+                    <animate attributeName="fill" values="#ec4899;#ec4899;#10b981" dur="2.8s" repeatCount="indefinite" begin="2.1s"/>
+                </circle>
+
+                <!-- ── CLONIO SHIELD (center) ── -->
+                <g transform="translate(370, 20)">
+                    <!-- Pulse rings -->
+                    <circle cx="70" cy="100" r="58" fill="none" stroke="rgba(16,185,129,0.12)" stroke-width="1">
+                        <animate attributeName="r" values="58;82;58" dur="3s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.5;0;0.5" dur="3s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="70" cy="100" r="58" fill="none" stroke="rgba(59,130,246,0.08)" stroke-width="1">
+                        <animate attributeName="r" values="58;90;58" dur="3s" begin="1.2s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.4;0;0.4" dur="3s" begin="1.2s" repeatCount="indefinite"/>
+                    </circle>
+                    <!-- Glow blob -->
+                    <circle cx="70" cy="100" r="52" fill="rgba(16,185,129,0.06)" filter="url(#softglow)"/>
+                    <!-- Circle border -->
+                    <circle cx="70" cy="100" r="52" fill="rgba(16,185,129,0.05)" stroke="url(#shieldGrad)" stroke-width="1.5"/>
+                    <!-- Shield path -->
+                    <path d="M70 42 L104 56 L104 98 C104 124 88 142 70 152 C52 142 36 124 36 98 L36 56 Z"
+                          fill="rgba(16,185,129,0.12)" stroke="url(#shieldGrad)" stroke-width="2" stroke-linejoin="round"/>
+                    <!-- Lock body -->
+                    <rect x="59" y="90" width="22" height="18" rx="4" fill="rgba(16,185,129,0.5)" stroke="rgba(16,185,129,0.8)" stroke-width="1"/>
+                    <!-- Lock shackle -->
+                    <path d="M64 90 L64 83 C64 77.5 76 77.5 76 83 L76 90"
+                          fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round"/>
+                    <!-- Lock dot -->
+                    <circle cx="70" cy="98.5" r="2.5" fill="#34d399"/>
+                    <!-- Caption -->
+                    <text x="70" y="167" text-anchor="middle" fill="#10b981" font-family="system-ui,sans-serif" font-size="13" font-weight="700">Clonio</text>
+                    <text x="70" y="181" text-anchor="middle" fill="#4a6080" font-family="'Courier New',monospace" font-size="8.5">Anonymization Engine</text>
+                </g>
+
+                <!-- ── TEST DB ── -->
+                <g transform="translate(644, 40)">
+                    <!-- Shadow -->
+                    <ellipse cx="85" cy="162" rx="58" ry="8" fill="rgba(16,185,129,0.06)"/>
+                    <!-- Body -->
+                    <rect x="27" y="30" width="116" height="115" rx="6" fill="#040f0a" stroke="rgba(16,185,129,0.45)" stroke-width="1.5"/>
+                    <!-- Top cap -->
+                    <ellipse cx="85" cy="30" rx="58" ry="17" fill="#081a10" stroke="rgba(16,185,129,0.55)" stroke-width="1.5"/>
+                    <!-- Bottom cap -->
+                    <ellipse cx="85" cy="145" rx="58" ry="17" fill="#051008" stroke="rgba(16,185,129,0.3)" stroke-width="1"/>
+                    <!-- Grooves -->
+                    <line x1="27" y1="75" x2="143" y2="75" stroke="rgba(16,185,129,0.12)" stroke-width="1"/>
+                    <line x1="27" y1="105" x2="143" y2="105" stroke="rgba(16,185,129,0.12)" stroke-width="1"/>
+                    <!-- Icon -->
+                    <text x="85" y="62" text-anchor="middle" font-size="26">🧪</text>
+                    <!-- Label -->
+                    <text x="85" y="120" text-anchor="middle" fill="rgba(16,185,129,0.7)" font-family="'Courier New',monospace" font-size="8.5" letter-spacing="0.8">SAFE DATA</text>
+                    <!-- Safe status -->
+                    <circle cx="138" cy="22" r="5" fill="#10b981">
+                        <animate attributeName="opacity" values="1;0.5;1" dur="2.5s" repeatCount="indefinite"/>
+                    </circle>
+                    <!-- Caption -->
+                    <text x="85" y="178" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="12" font-weight="600">Test / Dev DB</text>
+                    <text x="85" y="193" text-anchor="middle" fill="#10b981" font-family="'Courier New',monospace" font-size="8.5">GDPR Compliant ✓</text>
+                </g>
+
+                <!-- Flow labels -->
+                <text x="285" y="105" text-anchor="middle" fill="rgba(239,68,68,0.5)" font-family="'Courier New',monospace" font-size="9">raw PII</text>
+                <text x="595" y="105" text-anchor="middle" fill="rgba(16,185,129,0.65)" font-family="'Courier New',monospace" font-size="9">anonymized ✓</text>
+            </svg>
+        </div>
+
+        <!-- FEATURE CARDS -->
+        <div class="reveal">
+            <div style="text-align:center"><span class="section-label">Capabilities</span></div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <div class="feature-title">Column-Level Transformations</div>
+                    <div class="feature-desc">Keep original, static replacement, random/fake generation, or format-preserving anonymization — configured per column.</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <div class="feature-title">Schema-Aware Cloning</div>
+                    <div class="feature-desc">Handles schema drift automatically. Added, renamed, or removed columns — Clonio adapts. Full foreign key awareness during row selection.</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <div class="feature-title">Cryptographic Audit Logs</div>
+                    <div class="feature-desc">HMAC-SHA256 signed logs for every clone. Records who triggered it, transformations applied, timestamps, and target environments.</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚙️</div>
+                    <div class="feature-title">CI/CD Native</div>
+                    <div class="feature-desc">REST API trigger. GitHub Actions, GitLab CI, Jenkins, CircleCI, Azure DevOps, BitBucket — plug into any pipeline.</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏠</div>
+                    <div class="feature-title">Fully Self-Hosted</div>
+                    <div class="feature-desc">No cloud, no external data transmission. Your sensitive data never crosses your infrastructure boundary — ever.</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🗄️</div>
+                    <div class="feature-title">Multi-Database Support</div>
+                    <div class="feature-desc">PostgreSQL, MySQL, MariaDB, and Microsoft SQL Server. Enterprise custom solutions available on request.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DB BADGES -->
+        <div class="reveal" style="text-align:center">
+            <div class="db-row">
+                <div class="db-badge"><span class="dot"></span>PostgreSQL</div>
+                <div class="db-badge"><span class="dot"></span>MySQL</div>
+                <div class="db-badge"><span class="dot"></span>MariaDB</div>
+                <div class="db-badge"><span class="dot"></span>MS SQL Server</div>
+            </div>
+        </div>
+
+        <!-- PRICING -->
+        <div class="reveal" style="margin-top:4rem">
+            <div style="text-align:center;margin-bottom:0.5rem"><span class="section-label">Pricing</span></div>
+            <p style="text-align:center;color:var(--text-muted);font-size:0.85rem;margin-bottom:0.25rem">
+                60-day free implementation period for all commercial plans
+            </p>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-name">Community</div>
+                    <div class="pricing-price">Free</div>
+                    <div class="pricing-period">forever</div>
+                    <div class="pricing-desc">Students, open source, NGOs, and personal projects. Non-commercial use only.</div>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="pricing-name">Business</div>
+                    <div class="pricing-price"><span class="curr">€</span>39<span class="per">/mo</span></div>
+                    <div class="pricing-period">€468/year · up to €1M revenue</div>
+                    <div class="pricing-desc">Everything you need to stay GDPR-compliant in production. Full feature access.</div>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-name">Enterprise</div>
+                    <div class="pricing-price"><span class="curr">€</span>99<span class="per">/mo</span></div>
+                    <div class="pricing-period">€1,188/year · unlimited revenue</div>
+                    <div class="pricing-desc">Priority support, enterprise SLA, and custom database solutions on demand.</div>
+                </div>
+            </div>
+            <div style="text-align:center;margin-top:2.25rem">
+                <a href="https://clonio.dev" target="_blank" rel="noopener" class="btn-primary btn-green">
+                    Visit clonio.dev ↗
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ──────── PHP SCRIPT ──────── -->
+<div id="phpscript">
+    <div class="inner">
+        <div class="clonio-header reveal">
+            <div class="ps-badge">⚡ &nbsp;New Project &nbsp;·&nbsp; php-script</div>
+            <h2 class="ps-title">PHP Script</h2>
+            <p class="ps-subtitle">
+                A scripting language with JavaScript-like syntax that runs sandboxed inside PHP.
+                Let your users write custom automation and business logic — without exposing raw PHP
+                or spinning up a Node.js service.
+            </p>
+            <div class="tag-row">
+                <span class="tag tag-purple">v1.0.3 Released</span>
+                <span class="tag tag-dim">MIT License</span>
+                <span class="tag tag-blue">100% Test Coverage</span>
+                <span class="tag tag-dim">232 Commits · 4 Contributors</span>
+            </div>
+        </div>
+
+        <div class="ps-split reveal">
+            <!-- LEFT: features -->
+            <div>
+                <div class="ps-features">
+                    <div class="ps-feature">
+                        <div class="ps-feature-icon">🧩</div>
+                        <div>
+                            <div class="ps-feature-title">JavaScript-Like Syntax</div>
+                            <div class="ps-feature-desc">Familiar syntax for any developer — variables, loops, conditionals, method calls, and string concatenation. No learning curve for JS developers.</div>
+                        </div>
+                    </div>
+                    <div class="ps-feature">
+                        <div class="ps-feature-icon">🔒</div>
+                        <div>
+                            <div class="ps-feature-title">Sandboxed &amp; Whitelisted</div>
+                            <div class="ps-feature-desc">Full developer control over what functions and objects are exposed. Users only access what you explicitly allow — zero surface area for abuse.</div>
+                        </div>
+                    </div>
+                    <div class="ps-feature">
+                        <div class="ps-feature-icon">🌳</div>
+                        <div>
+                            <div class="ps-feature-title">AST-Based Engine</div>
+                            <div class="ps-feature-desc">Built on a real Abstract Syntax Tree. Both PHP and PHP Script can be rendered from the same AST — enabling powerful tooling and analysis.</div>
+                        </div>
+                    </div>
+                    <div class="ps-feature">
+                        <div class="ps-feature-icon">🎨</div>
+                        <div>
+                            <div class="ps-feature-title">Monaco Editor Ready</div>
+                            <div class="ps-feature-desc">Ships with a Monarch language definition for Monaco/VSCode-based editors — syntax highlighting and code completion out of the box.</div>
+                        </div>
+                    </div>
+                    <div class="ps-feature">
+                        <div class="ps-feature-icon">⏱️</div>
+                        <div>
+                            <div class="ps-feature-title">Execution Time Limits</div>
+                            <div class="ps-feature-desc">Configurable timeout prevents infinite loops. Errors point back to the exact source location. Production-safe from day one.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ps-cta" style="margin-top:2rem">
+                    <a href="https://php-script.github.io/php-script/" target="_blank" rel="noopener" class="btn-purple">
+                        📖 Documentation ↗
+                    </a>
+                    <a href="https://github.com/php-script/php-script" target="_blank" rel="noopener" class="btn-secondary">
+                        View on GitHub ↗
+                    </a>
+                </div>
+            </div>
+
+            <!-- RIGHT: code example -->
+            <div class="ps-code-wrap">
+                <div class="ps-code-header">
+                    <div class="ps-code-dots">
+                        <div class="ps-code-dot" style="background:#ff5f57"></div>
+                        <div class="ps-code-dot" style="background:#febc2e"></div>
+                        <div class="ps-code-dot" style="background:#28c840"></div>
+                    </div>
+                    <div class="ps-code-title">example.phs &nbsp;·&nbsp; PHP Script</div>
+                    <div></div>
+                </div>
+                <div class="ps-code-body"><span class="psc">// Greet the user by name</span>
+<span class="psk">echo</span> <span class="pss">'Hello '</span> <span class="pso">+</span> user<span class="pso">.</span><span class="psm">name</span>;
+
+<span class="psc">// Count their logins</span>
+totalLogins <span class="pso">=</span> user<span class="pso">.</span>logins<span class="pso">.</span><span class="psm">count</span><span class="pso">();</span>
+<span class="psk">echo</span> <span class="pss">'Logins: '</span> <span class="pso">+</span> totalLogins;
+
+<span class="psc">// Business logic with conditions</span>
+score <span class="pso">=</span> totalLogins <span class="pso">*</span> <span class="psn">10</span> <span class="pso">+</span> user<span class="pso">.</span>bonus;
+<span class="psk">if</span> <span class="pso">(</span>score <span class="pso">&gt;</span> <span class="psn">500</span><span class="pso">)</span> <span class="pso">{</span>
+    <span class="psk">echo</span> <span class="pss">'Power user!'</span>;
+<span class="pso">}</span>
+
+<span class="psc">// Loop through allowed data</span>
+<span class="psk">foreach</span> <span class="pso">(</span>users_list <span class="psk">as</span> u<span class="pso">)</span> <span class="pso">{</span>
+    <span class="psk">echo</span> <span class="pss">'- '</span> <span class="pso">+</span> u;
+<span class="pso">}</span>
+
+<span class="psc">// Permission-gated access</span>
+<span class="psk">if</span> <span class="pso">(</span>user<span class="pso">.</span><span class="psm">hasPermission</span><span class="pso">(</span><span class="pss">'admin'</span><span class="pso">))</span> <span class="pso">{</span>
+    <span class="psk">echo</span> <span class="pss">'Access granted!'</span>;
+<span class="pso">}</span></div>
+
+                <!-- PHP integration snippet -->
+                <div style="border-top:1px solid rgba(168,85,247,0.15);padding:1.25rem 1.5rem">
+                    <div style="font-family:var(--font-mono);font-size:0.68rem;color:#7c3aed;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem">PHP Integration</div>
+                    <div style="font-family:var(--font-mono);font-size:0.77rem;line-height:1.85;color:var(--text-muted)"><span style="color:#c084fc">use</span> <span style="color:#fbbf24">PhpScript\Core\Engine</span>;<br>
+<br>
+<span style="color:#e2e8f0">$engine</span> = <span style="color:#c084fc">new</span> <span style="color:#fbbf24">Engine</span>();<br>
+<span style="color:#e2e8f0">$engine</span>-&gt;<span style="color:#93c5fd">set</span>(<span style="color:#86efac">'user'</span>, <span style="color:#c084fc">new</span> <span style="color:#fbbf24">User</span>());<br>
+<span style="color:#e2e8f0">$engine</span>-&gt;<span style="color:#93c5fd">setExecutionTimeLimit</span>(<span style="color:#fbbf24">5</span>);<br>
+<br>
+<span style="color:#c084fc">echo</span> <span style="color:#e2e8f0">$engine</span>-&gt;<span style="color:#93c5fd">execute</span>(<span style="color:#86efac">$userScript</span>);</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Roadmap teaser -->
+        <div class="reveal" style="margin-top:3rem;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem 2rem">
+            <div style="font-family:var(--font-mono);font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:#a855f7;margin-bottom:1rem">Coming Up</div>
+            <div style="display:flex;flex-wrap:wrap;gap:0.75rem">
+                <span style="font-size:0.8rem;color:var(--text-muted);background:var(--bg-2);border:1px solid var(--border);padding:0.3rem 0.75rem;border-radius:6px">🗺️ Mermaid.js AST flowcharts</span>
+                <span style="font-size:0.8rem;color:var(--text-muted);background:var(--bg-2);border:1px solid var(--border);padding:0.3rem 0.75rem;border-radius:6px">⚡ Monaco component for Vanilla JS</span>
+                <span style="font-size:0.8rem;color:var(--text-muted);background:var(--bg-2);border:1px solid var(--border);padding:0.3rem 0.75rem;border-radius:6px">💚 Monaco component for Vue.js</span>
+                <span style="font-size:0.8rem;color:var(--text-muted);background:var(--bg-2);border:1px solid var(--border);padding:0.3rem 0.75rem;border-radius:6px">⚛️ Monaco component for React</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ──────── TECH STACK ──────── -->
+<section id="stack-section">
+    <div class="inner">
+        <div class="reveal">
+            <span class="section-label">Technology</span>
+            <h2 class="section-title">The Stack</h2>
+            <p class="section-desc">Refined over 25 years of professional development — every tool chosen with intention.</p>
+        </div>
+        <div class="stack-grid reveal">
+            <div class="stack-badge"><span class="bdot" style="background:#777bb4"></span>PHP 8.4+</div>
+            <div class="stack-badge"><span class="bdot" style="background:#ff2d20"></span>Laravel</div>
+            <div class="stack-badge"><span class="bdot" style="background:#41b883"></span>Vue.js 3</div>
+            <div class="stack-badge"><span class="bdot" style="background:#9333ea"></span>Inertia.js</div>
+            <div class="stack-badge"><span class="bdot" style="background:#38bdf8"></span>Tailwind CSS</div>
+            <div class="stack-badge"><span class="bdot" style="background:#f59e0b"></span>Vite</div>
+            <div class="stack-badge"><span class="bdot" style="background:#16a34a"></span>Pest</div>
+            <div class="stack-badge"><span class="bdot" style="background:#3b82f6"></span>PostgreSQL / MySQL</div>
+            <div class="stack-badge"><span class="bdot" style="background:#0ea5e9"></span>Laravel Sail / Docker</div>
+            <div class="stack-badge"><span class="bdot" style="background:#6366f1"></span>Domain-Driven Design</div>
+            <div class="stack-badge"><span class="bdot" style="background:#ec4899"></span>REST &amp; Webhook APIs</div>
+            <div class="stack-badge"><span class="bdot" style="background:#14b8a6"></span>Laravel Herd</div>
+        </div>
+
+        <div class="reveal" style="display:flex;justify-content:center">
+            <div class="code-block"><span class="cc">// How Clonio fits into your Laravel workflow</span><br>
+<span class="ck">use</span> <span class="ct">App\Domain\Database\Services\ClonerService</span>;<br>
+<span class="ck">use</span> <span class="ct">App\Domain\Database\DTOs\CloneConfig</span>;<br>
+<br>
+<span class="ct">Route</span>::<span class="cf">post</span>(<span class="cs">'/api/clone'</span>, <span class="ck">function</span>(<span class="ct">Request</span> <span class="cn">$request</span>) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">$config</span> = <span class="ck">new</span> <span class="ct">CloneConfig</span>(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source: <span class="ck">$request</span>-&gt;production_connection,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target: <span class="ck">$request</span>-&gt;test_environment,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gdprMode: <span class="ck">true</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;auditSigned: <span class="ck">true</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">return</span> <span class="ct">ClonerService</span>::<span class="cf">clone</span>(<span class="ck">$config</span>);<span class="cc"> // PII anonymized in-flight</span><br>
+});</div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ──────── TIMELINE ──────── -->
+<section id="timeline-section">
+    <div class="inner">
+        <div class="reveal">
+            <span class="section-label">Journey</span>
+            <h2 class="section-title">25 Years of Craft</h2>
+            <p class="section-desc">From PHP 3 to Laravel 4 to full-stack SaaS platforms — a quarter century of building things that matter.</p>
+        </div>
+        <div class="timeline-track" id="timeline-track">
+            <div class="tl-item hi">
+                <div class="tl-dot"></div>
+                <div class="tl-year">2001</div>
+                <div class="tl-title">The Beginning</div>
+                <div class="tl-desc">First lines of PHP 3. The web was young and full of possibility.</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-year">2004–2008</div>
+                <div class="tl-title">PHP Maturity</div>
+                <div class="tl-desc">PHP 4 &amp; 5 era — custom CMS systems, web applications, growing confidence.</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-year">2010</div>
+                <div class="tl-title">@ipunkt</div>
+                <div class="tl-desc">Joined the ipunkt organization. Open source collaboration begins.</div>
+            </div>
+            <div class="tl-item hi">
+                <div class="tl-dot"></div>
+                <div class="tl-year">2013</div>
+                <div class="tl-title">Laravel 4</div>
+                <div class="tl-desc">Discovered Laravel 4. Fell in love. Framework of choice ever since.</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-year">2015–2018</div>
+                <div class="tl-title">Package Ecosystem</div>
+                <div class="tl-desc">Publishing open source: subscription manager, state machines, utilities.</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-year">2019</div>
+                <div class="tl-title">Inertia.js + Vue 3</div>
+                <div class="tl-desc">Adopted Inertia.js and Vue.js 3. The perfect full-stack Laravel combination.</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-year">2022</div>
+                <div class="tl-title">Robert Kummer IT</div>
+                <div class="tl-desc">Founded Robert Kummer IT. Independent product development.</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-year">2024</div>
+                <div class="tl-title">SaaS Starter Kit</div>
+                <div class="tl-desc">Released laravel-starter-kit with DDD architecture for production SaaS.</div>
+            </div>
+            <div class="tl-item hi">
+                <div class="tl-dot"></div>
+                <div class="tl-year">Feb 2026</div>
+                <div class="tl-title">Clonio v1.0</div>
+                <div class="tl-desc">Launched Clonio — GDPR-compliant DB cloning for production teams everywhere.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ──────── PACKAGES ──────── -->
+<section id="packages-section">
+    <div class="inner">
+        <div class="reveal">
+            <span class="section-label">Open Source</span>
+            <h2 class="section-title">Packages</h2>
+            <p class="section-desc">Battle-tested Laravel packages, released back to the community that shaped me.</p>
+        </div>
+        <div class="packages-grid">
+            <a href="https://github.com/rokde/laravel-starter-kit" target="_blank" rel="noopener" class="pkg-card reveal">
+                <div class="pkg-head">
+                    <div>
+                        <div class="pkg-name">laravel-starter-kit</div>
+                        <div class="pkg-org">rokde / laravel-starter-kit</div>
+                    </div>
+                    <div class="pkg-stars">★ 5</div>
+                </div>
+                <div class="pkg-desc">Laravel Starter Kit with Domain-Driven Design and all the builtin features every SaaS needs — auth, subscriptions, and more.</div>
+                <div class="pkg-foot">
+                    <span class="lang-dot" style="background:#41b883"></span>Vue
+                </div>
+            </a>
+            <a href="https://github.com/rokde/laravel-subscription-manager" target="_blank" rel="noopener" class="pkg-card reveal">
+                <div class="pkg-head">
+                    <div>
+                        <div class="pkg-name">laravel-subscription-manager</div>
+                        <div class="pkg-org">rokde / laravel-subscription-manager</div>
+                    </div>
+                    <div class="pkg-stars">★ 9</div>
+                </div>
+                <div class="pkg-desc">Complete subscription management for Laravel. Plans, features, limits — everything needed for SaaS billing logic without vendor lock-in.</div>
+                <div class="pkg-foot">
+                    <span class="lang-dot" style="background:#777bb4"></span>PHP
+                    &nbsp;·&nbsp; 4 forks
+                </div>
+            </a>
+            <a href="https://github.com/rokde/number-generator" target="_blank" rel="noopener" class="pkg-card reveal">
+                <div class="pkg-head">
+                    <div>
+                        <div class="pkg-name">number-generator</div>
+                        <div class="pkg-org">rokde / number-generator</div>
+                    </div>
+                    <div class="pkg-stars">★ 2</div>
+                </div>
+                <div class="pkg-desc">Generate invoice numbers, customer IDs, and sequences with configurable placeholders. The missing Laravel utility for formatted sequential numbering.</div>
+                <div class="pkg-foot"><span class="lang-dot" style="background:#777bb4"></span>PHP</div>
+            </a>
+            <a href="https://github.com/rokde/laravel-pergament" target="_blank" rel="noopener" class="pkg-card reveal">
+                <div class="pkg-head">
+                    <div>
+                        <div class="pkg-name">laravel-pergament</div>
+                        <div class="pkg-org">rokde / laravel-pergament</div>
+                    </div>
+                    <span style="font-size:0.65rem;color:var(--green);background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);padding:0.15rem 0.5rem;border-radius:4px">NEW</span>
+                </div>
+                <div class="pkg-desc">File-based CMS for Laravel using Markdown + YAML front matter. No database required for your content layer — elegant and fast.</div>
+                <div class="pkg-foot"><span class="lang-dot" style="background:#777bb4"></span>PHP</div>
+            </a>
+            <a href="https://github.com/rokde/state-machine" target="_blank" rel="noopener" class="pkg-card reveal">
+                <div class="pkg-head">
+                    <div>
+                        <div class="pkg-name">state-machine</div>
+                        <div class="pkg-org">rokde / state-machine</div>
+                    </div>
+                </div>
+                <div class="pkg-desc">A generic, framework-agnostic state machine implementation in PHP. Model complex domain transitions with clarity, type safety, and elegance.</div>
+                <div class="pkg-foot"><span class="lang-dot" style="background:#777bb4"></span>PHP</div>
+            </a>
+            <a href="https://github.com/rokde/laravel-clone-database-command" target="_blank" rel="noopener" class="pkg-card reveal">
+                <div class="pkg-head">
+                    <div>
+                        <div class="pkg-name">laravel-clone-database-command</div>
+                        <div class="pkg-org">rokde / laravel-clone-database-command</div>
+                    </div>
+                    <span style="font-size:0.65rem;color:var(--blue-light);background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);padding:0.15rem 0.5rem;border-radius:4px">Clonio origin</span>
+                </div>
+                <div class="pkg-desc">Clone a database with configurable value overwriting. The Artisan command that evolved into the full Clonio product.</div>
+                <div class="pkg-foot"><span class="lang-dot" style="background:#777bb4"></span>PHP</div>
+            </a>
+            <a href="https://github.com/rokde/laravel-utilities" target="_blank" rel="noopener" class="pkg-card reveal">
+                <div class="pkg-head">
+                    <div>
+                        <div class="pkg-name">laravel-utilities</div>
+                        <div class="pkg-org">rokde / laravel-utilities</div>
+                    </div>
+                </div>
+                <div class="pkg-desc">A collection of PHP and Laravel utilities accumulated over years of production work. Small helpers that make the everyday smoother.</div>
+                <div class="pkg-foot"><span class="lang-dot" style="background:#777bb4"></span>PHP</div>
+            </a>
+            <a href="https://github.com/rokde/laravel-buymeacoffee-webhook-handler" target="_blank" rel="noopener" class="pkg-card reveal">
+                <div class="pkg-head">
+                    <div>
+                        <div class="pkg-name">laravel-buymeacoffee-webhook-handler</div>
+                        <div class="pkg-org">rokde / buymeacoffee-webhook</div>
+                    </div>
+                </div>
+                <div class="pkg-desc">Handle Buy Me a Coffee webhooks in Laravel with ease. React to supporter events programmatically in your application.</div>
+                <div class="pkg-foot"><span class="lang-dot" style="background:#777bb4"></span>PHP &nbsp;·&nbsp; 1 fork</div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ──────── STATS ──────── -->
+<div id="stats-section">
+    <div class="inner">
+        <div class="stats-grid reveal">
+            <div>
+                <div class="stat-num" data-target="25">0</div>
+                <div class="stat-label">Years of PHP</div>
+            </div>
+            <div>
+                <div class="stat-num" data-target="30">0</div>
+                <div class="stat-label">Public Repos</div>
+            </div>
+            <div>
+                <div class="stat-num" data-target="596">0</div>
+                <div class="stat-label">Contributions 2026</div>
+            </div>
+            <div>
+                <div class="stat-num" data-target="3575">0</div>
+                <div class="stat-label">Contributions 2025</div>
+            </div>
+            <div>
+                <div class="stat-num" data-target="435">0</div>
+                <div class="stat-label">Contributions 2024</div>
+            </div>
+        </div>
+
+        <div class="ach-row reveal">
+            <div class="ach">🦈 Pull Shark ×3</div>
+            <div class="ach">👥 Pair Extraordinaire</div>
+            <div class="ach">⚡ Quickdraw</div>
+            <div class="ach">🌍 Arctic Code Vault Contributor</div>
+            <div class="ach">⭐ Starstruck</div>
+        </div>
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ──────── FOOTER ──────── -->
+<footer>
+    <div class="footer-links">
+        <a href="https://github.com/rokde" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/>
+            </svg>
+            @rokde
+        </a>
+        <a href="https://clonio.dev" target="_blank" rel="noopener">🛡️ clonio.dev</a>
+        <a href="https://github.com/clonio-dev" target="_blank" rel="noopener">🏢 clonio-dev</a>
+        <a href="https://php-script.github.io/php-script/" target="_blank" rel="noopener">⚡ php-script</a>
+        <a href="https://robert-kummer.de" target="_blank" rel="noopener">🌐 robert-kummer.de</a>
+    </div>
+    <div class="footer-copy">
+        Robert Kummer · @rokde · Germany · Crafting software since 2001
+    </div>
+    <div class="footer-copy">
+        Robert Kummer IT · Inhaber Robert Kummer · Hohenstaufenstraße 35 · 10779 Berlin
+    </div>
+    <div class="footer-copy">
+        post@robert-kummer.de · +49 17621237510
+    </div>
+</footer>
+
+<script>
+(function () {
+    'use strict';
+
+    // ── Scroll-reveal ──
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => revealObs.observe(el));
+
+    // ── Timeline stagger ──
+    const track = document.getElementById('timeline-track');
+    if (track) {
+        const tlObs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    track.querySelectorAll('.tl-item').forEach((item, i) => {
+                        setTimeout(() => item.classList.add('visible'), i * 90);
+                    });
+                    tlObs.disconnect();
+                }
+            });
+        }, { threshold: 0.15 });
+        tlObs.observe(track);
+    }
+
+    // ── Animated counters ──
+    const counters = document.querySelectorAll('.stat-num[data-target]');
+    const cntObs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (!e.isIntersecting || e.target.dataset.counted) return;
+            e.target.dataset.counted = '1';
+            const target = parseInt(e.target.dataset.target, 10);
+            const suffix = e.target.dataset.suffix || '';
+            const dur = 1600;
+            const t0 = performance.now();
+            (function tick(now) {
+                const p = Math.min((now - t0) / dur, 1);
+                const ease = 1 - Math.pow(1 - p, 3);
+                e.target.textContent = Math.round(ease * target) + (p >= 1 ? suffix : '');
+                if (p < 1) requestAnimationFrame(tick);
+            })(t0);
+        });
+    }, { threshold: 0.5 });
+    counters.forEach(el => cntObs.observe(el));
+
+    // ── Nav background on scroll ──
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+        nav.style.background = window.scrollY > 60
+            ? 'rgba(5,11,24,0.96)'
+            : 'rgba(5,11,24,0.75)';
+    }, { passive: true });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 220" width="900" height="220">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050b18"/>
+      <stop offset="100%" stop-color="#0a1628"/>
+    </linearGradient>
+    <linearGradient id="nameGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e2e8f0"/>
+      <stop offset="60%" stop-color="#60a5fa"/>
+      <stop offset="100%" stop-color="#34d399"/>
+    </linearGradient>
+    <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="transparent"/>
+      <stop offset="30%" stop-color="#3b82f6" stop-opacity="0.6"/>
+      <stop offset="70%" stop-color="#10b981" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="textglow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="220" fill="url(#bgGrad)"/>
+
+  <!-- Animated grid -->
+  <g opacity="0.07">
+    <line x1="0" y1="0" x2="0" y2="220" stroke="#3b82f6" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0;60,0;0,0" dur="20s" repeatCount="indefinite"/>
+    </line>
+    <line x1="60" y1="0" x2="60" y2="220" stroke="#3b82f6" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0;60,0;0,0" dur="20s" repeatCount="indefinite"/>
+    </line>
+    <line x1="120" y1="0" x2="120" y2="220" stroke="#3b82f6" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0;60,0;0,0" dur="20s" repeatCount="indefinite"/>
+    </line>
+    <line x1="180" y1="0" x2="180" y2="220" stroke="#3b82f6" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0;60,0;0,0" dur="20s" repeatCount="indefinite"/>
+    </line>
+    <line x1="240" y1="0" x2="240" y2="220" stroke="#3b82f6" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0;60,0;0,0" dur="20s" repeatCount="indefinite"/>
+    </line>
+    <line x1="300" y1="0" x2="300" y2="220" stroke="#3b82f6" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0;60,0;0,0" dur="20s" repeatCount="indefinite"/>
+    </line>
+    <line x1="360" y1="0" x2="360" y2="220" stroke="#3b82f6" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0;60,0;0,0" dur="20s" repeatCount="indefinite"/>
+    </line>
+    <line x1="420" y1="0" x2="420" y2="220" stroke="#3b82f6" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0;60,0;0,0" dur="20s" repeatCount="indefinite"/>
+    </line>
+    <line x1="480" y1="0" x2="480" y2="220" stroke="#3b82f6" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0;60,0;0,0" dur="20s" repeatCount="indefinite"/>
+    </line>
+    <line x1="540" y1="0" x2="540" y2="220" stroke="#3b82f6" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0;60,0;0,0" dur="20s" repeatCount="indefinite"/>
+    </line>
+    <line x1="600" y1="0" x2="600" y2="220" stroke="#3b82f6" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0;60,0;0,0" dur="20s" repeatCount="indefinite"/>
+    </line>
+    <line x1="660" y1="0" x2="660" y2="220" stroke="#3b82f6" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0;60,0;0,0" dur="20s" repeatCount="indefinite"/>
+    </line>
+    <line x1="720" y1="0" x2="720" y2="220" stroke="#3b82f6" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0;60,0;0,0" dur="20s" repeatCount="indefinite"/>
+    </line>
+    <line x1="780" y1="0" x2="780" y2="220" stroke="#3b82f6" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0;60,0;0,0" dur="20s" repeatCount="indefinite"/>
+    </line>
+    <line x1="840" y1="0" x2="840" y2="220" stroke="#3b82f6" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0;60,0;0,0" dur="20s" repeatCount="indefinite"/>
+    </line>
+    <line x1="0" y1="0" x2="900" y2="0" stroke="#3b82f6" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0;0,60;0,0" dur="20s" repeatCount="indefinite"/>
+    </line>
+    <line x1="0" y1="60" x2="900" y2="60" stroke="#3b82f6" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0;0,60;0,0" dur="20s" repeatCount="indefinite"/>
+    </line>
+    <line x1="0" y1="120" x2="900" y2="120" stroke="#3b82f6" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0;0,60;0,0" dur="20s" repeatCount="indefinite"/>
+    </line>
+    <line x1="0" y1="180" x2="900" y2="180" stroke="#3b82f6" stroke-width="0.5">
+      <animateTransform attributeName="transform" type="translate" values="0,0;0,60;0,0" dur="20s" repeatCount="indefinite"/>
+    </line>
+  </g>
+
+  <!-- Glow orb left -->
+  <circle cx="200" cy="110" r="120" fill="#3b82f6" opacity="0.07" filter="url(#glow)">
+    <animate attributeName="r" values="120;140;120" dur="6s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.07;0.12;0.07" dur="6s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Glow orb right -->
+  <circle cx="700" cy="110" r="100" fill="#10b981" opacity="0.07" filter="url(#glow)">
+    <animate attributeName="r" values="100;120;100" dur="8s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.07;0.11;0.07" dur="8s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Decorative separator line -->
+  <line x1="0" y1="218" x2="900" y2="218" stroke="url(#lineGrad)" stroke-width="2"/>
+
+  <!-- "since 2001" pill -->
+  <rect x="358" y="24" width="184" height="22" rx="11" fill="rgba(245,158,11,0.1)" stroke="rgba(245,158,11,0.3)" stroke-width="1"/>
+  <text x="450" y="39" text-anchor="middle" font-family="'Courier New', Courier, monospace" font-size="10.5" fill="#fbbf24" letter-spacing="0.5">PHP artisan · since 2001</text>
+
+  <!-- Name -->
+  <text x="450" y="110" text-anchor="middle"
+        font-family="'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif"
+        font-size="58" font-weight="400" fill="url(#nameGrad)" filter="url(#textglow)"
+        letter-spacing="-0.5">Robert Kummer</text>
+
+  <!-- Handle -->
+  <text x="450" y="140" text-anchor="middle"
+        font-family="'Courier New', Courier, monospace"
+        font-size="15" fill="#64748b" letter-spacing="2">@rokde</text>
+
+  <!-- Tagline -->
+  <text x="450" y="170" text-anchor="middle"
+        font-family="system-ui, -apple-system, sans-serif"
+        font-size="13" fill="#475569" letter-spacing="0.3">
+    Laravel · Inertia.js · Vue.js · PHP · Germany
+  </text>
+
+  <!-- Location dot -->
+  <circle cx="230" cy="166" r="3" fill="#10b981">
+    <animate attributeName="opacity" values="1;0.3;1" dur="2.5s" repeatCount="indefinite"/>
+  </circle>
+  <text x="237" y="170" font-family="'Courier New', monospace" font-size="11" fill="#10b981">available</text>
+</svg>
