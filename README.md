@@ -23,9 +23,12 @@ I believe software should be crafted, not just shipped. Every package, every fea
 
 ---
 
-## 🛡️ Clonio — GDPR-Compliant Database Cloning
+## 🛡️ Clonio — GDPR-Compliant Database Cloning CLI
 
-> **Self-hosted tool that creates anonymized copies of your production database for dev, test & staging — with PII never leaving your infrastructure boundary.**
+[![Latest release](https://img.shields.io/github/v/release/clonio-dev/clonio-cli?style=flat-square&color=10b981&labelColor=0a0f1e&label=release)](https://github.com/clonio-dev/clonio-cli/releases)
+[![License](https://img.shields.io/badge/license-MIT-10b981?style=flat-square&labelColor=0a0f1e)](https://github.com/clonio-dev/clonio-cli)
+
+> **MIT-licensed CLI that clones production-like data into dev, test, staging & CI — with PII anonymized in-flight. Terminal-first, runs in your infrastructure, no web app to operate.**
 
 <div align="center">
   <img src="./assets/data-flow.svg" width="100%" alt="Clonio data flow: Production DB → Anonymization → Test DB" />
@@ -39,12 +42,12 @@ I believe software should be crafted, not just shipped. Every package, every fea
 
 **Key Features**
 
-- 🔄 Column-level transformations *(keep / static / random / format-preserving)*
+- 🔄 Column-level transformations *(fake / hash / mask / null)*
 - 🧠 Schema-aware — handles added, removed, renamed columns
-- 🔑 Foreign key awareness during row selection
+- 🔑 Key remapping across connections
 - 📋 Cryptographically signed audit logs *(HMAC-SHA256)*
-- ⚙️ REST API trigger + CI/CD integrations *(GitHub Actions, GitLab CI, Jenkins…)*
-- 🏠 Fully self-hosted — no cloud, no external data transmission
+- ⚙️ DevOps-ready — binary, PHAR, Composer, Docker *(GitHub Actions, GitLab CI, cron…)*
+- 🏠 Runs in your infrastructure — no cloud, no web app, no external data transmission
 
 </td>
 <td width="50%" valign="top">
@@ -58,33 +61,15 @@ I believe software should be crafted, not just shipped. Every package, every fea
 | MariaDB | ✅ Supported |
 | MS SQL Server | ✅ Supported |
 
-**Tech Stack:** PHP 8.4+ · Laravel · Vue 3 · Inertia.js · Tailwind · Pest
+**Tech Stack:** PHP 8.4+ · Terminal-first CLI · `.cloning.yaml`
+
+**Install:** standalone binary · PHAR · Composer dev dependency · Docker image
 
 </td>
 </tr>
 </table>
 
-<table>
-<tr>
-<td align="center" width="33%">
-<strong>Community</strong><br><br>
-<code>Free forever</code><br>
-<sub>Students · OSS · NGOs · Personal</sub>
-</td>
-<td align="center" width="33%">
-<strong>Business</strong><br><br>
-<code>€39 / month</code><br>
-<sub>Up to €1M annual revenue</sub>
-</td>
-<td align="center" width="33%">
-<strong>Enterprise</strong><br><br>
-<code>€99 / month</code><br>
-<sub>Unlimited revenue · Priority support</sub>
-</td>
-</tr>
-</table>
-
-🌐 **[clonio.dev](https://clonio.dev)** &nbsp;·&nbsp; 📦 **[github.com/clonio-dev/clonio](https://github.com/clonio-dev/clonio)** &nbsp;·&nbsp; `v1.0.1`
+🌐 **[clonio.dev](https://clonio.dev)** &nbsp;·&nbsp; 📦 **[github.com/clonio-dev/clonio-cli](https://github.com/clonio-dev/clonio-cli)** &nbsp;·&nbsp; MIT licensed
 
 ---
 
@@ -211,7 +196,7 @@ echo $engine->execute($userScript);        // PII stays yours, logic stays their
 2022 ───────────────── founded Robert Kummer IT
 2024 ───────────────── laravel-starter-kit · DDD architecture for SaaS
 2025 ───────────────── PHP Script · embedded scripting language for PHP apps
-2026 ───────────────── Clonio v1.0 · GDPR-compliant DB cloning for teams
+2026 ───────────────── Clonio CLI · MIT-licensed GDPR-compliant DB cloning
 ```
 
 ---
