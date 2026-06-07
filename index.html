@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Robert Kummer · @rokde · Laravel Artisan</title>
-    <meta name="description" content="Robert Kummer — Senior Laravel developer since 2001. Creator of Clonio (GDPR-compliant DB cloning) and PHP Script (embedded scripting language for PHP apps).">
+    <meta name="description" content="Robert Kummer — Senior Laravel developer since 2001. Creator of Clonio (MIT-licensed GDPR-compliant database cloning CLI) and PHP Script (embedded scripting language for PHP apps).">
     <style>
         :root {
             --bg-0: #050b18;
@@ -595,15 +595,18 @@
             <div class="clonio-badge">🛡️ &nbsp;Featured Project &nbsp;·&nbsp; clonio-dev</div>
             <h2 class="clonio-title">Clonio</h2>
             <p class="clonio-subtitle">
-                A self-hosted, GDPR-compliant database cloning tool. Copy production databases into
-                development, testing, and staging — with PII anonymized in-flight, never leaving
-                your infrastructure boundary.
+                A MIT-licensed, GDPR-compliant database cloning CLI. Clone production-like data into
+                development, testing, staging, and CI — with PII anonymized in-flight, never leaving
+                your terminal. No web app to operate: terminal-first, runs in your infrastructure.
             </p>
             <div class="tag-row">
-                <span class="tag tag-green">v1.0.1 Released</span>
-                <span class="tag tag-dim">Self-Hosted</span>
+                <a href="https://github.com/clonio-dev/clonio-cli/releases" target="_blank" rel="noopener" style="display:inline-flex">
+                    <img src="https://img.shields.io/github/v/release/clonio-dev/clonio-cli?style=flat-square&color=10b981&labelColor=0a1428&label=release" alt="Latest release" style="height:1.55rem;vertical-align:middle">
+                </a>
+                <span class="tag tag-green">MIT Licensed</span>
+                <span class="tag tag-dim">Open Source</span>
                 <span class="tag tag-blue">GDPR Compliant</span>
-                <span class="tag tag-dim">PHP 8.4+ · Laravel · Vue 3 · Inertia.js</span>
+                <span class="tag tag-dim">CLI · PHP 8.4+ · Terminal-First</span>
             </div>
         </div>
 
@@ -763,7 +766,7 @@
                 <div class="feature-card">
                     <div class="feature-icon">🔄</div>
                     <div class="feature-title">Column-Level Transformations</div>
-                    <div class="feature-desc">Keep original, static replacement, random/fake generation, or format-preserving anonymization — configured per column.</div>
+                    <div class="feature-desc">Fake, hash, mask, or null — privacy-first transformations configured per column in a repeatable <code>.cloning.yaml</code> file.</div>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🧠</div>
@@ -777,18 +780,18 @@
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">⚙️</div>
-                    <div class="feature-title">CI/CD Native</div>
-                    <div class="feature-desc">REST API trigger. GitHub Actions, GitLab CI, Jenkins, CircleCI, Azure DevOps, BitBucket — plug into any pipeline.</div>
+                    <div class="feature-title">DevOps-Ready Execution</div>
+                    <div class="feature-desc">Standalone binary, PHAR, Composer dev dependency, or Docker image. Drop into local scripts, cron jobs, GitHub Actions, GitLab CI — any pipeline runner.</div>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🏠</div>
-                    <div class="feature-title">Fully Self-Hosted</div>
-                    <div class="feature-desc">No cloud, no external data transmission. Your sensitive data never crosses your infrastructure boundary — ever.</div>
+                    <div class="feature-title">Runs In Your Infrastructure</div>
+                    <div class="feature-desc">No cloud, no web app, no external data transmission. Your sensitive data never leaves your terminal or crosses your infrastructure boundary — ever.</div>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🗄️</div>
                     <div class="feature-title">Multi-Database Support</div>
-                    <div class="feature-desc">PostgreSQL, MySQL, MariaDB, and Microsoft SQL Server. Enterprise custom solutions available on request.</div>
+                    <div class="feature-desc">PostgreSQL, MySQL, MariaDB, and Microsoft SQL Server. Schema-aware transfers with automatic key remapping across connections.</div>
                 </div>
             </div>
         </div>
@@ -803,35 +806,24 @@
             </div>
         </div>
 
-        <!-- PRICING -->
+        <!-- OPEN SOURCE -->
         <div class="reveal" style="margin-top:4rem">
-            <div style="text-align:center;margin-bottom:0.5rem"><span class="section-label">Pricing</span></div>
-            <p style="text-align:center;color:var(--text-muted);font-size:0.85rem;margin-bottom:0.25rem">
-                60-day free implementation period for all commercial plans
+            <div style="text-align:center;margin-bottom:0.5rem"><span class="section-label">Open Source</span></div>
+            <p style="text-align:center;color:var(--text-muted);font-size:0.85rem;margin-bottom:1.75rem">
+                MIT licensed · unrestricted usage · sponsorships welcome
             </p>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <div class="pricing-name">Community</div>
-                    <div class="pricing-price">Free</div>
-                    <div class="pricing-period">forever</div>
-                    <div class="pricing-desc">Students, open source, NGOs, and personal projects. Non-commercial use only.</div>
-                </div>
-                <div class="pricing-card featured">
-                    <div class="pricing-name">Business</div>
-                    <div class="pricing-price"><span class="curr">€</span>39<span class="per">/mo</span></div>
-                    <div class="pricing-period">€468/year · up to €1M revenue</div>
-                    <div class="pricing-desc">Everything you need to stay GDPR-compliant in production. Full feature access.</div>
-                </div>
-                <div class="pricing-card">
-                    <div class="pricing-name">Enterprise</div>
-                    <div class="pricing-price"><span class="curr">€</span>99<span class="per">/mo</span></div>
-                    <div class="pricing-period">€1,188/year · unlimited revenue</div>
-                    <div class="pricing-desc">Priority support, enterprise SLA, and custom database solutions on demand.</div>
-                </div>
+            <div class="db-row">
+                <div class="db-badge"><span class="dot"></span>Standalone binary</div>
+                <div class="db-badge"><span class="dot"></span>PHAR</div>
+                <div class="db-badge"><span class="dot"></span>Composer dev dependency</div>
+                <div class="db-badge"><span class="dot"></span>Docker image</div>
             </div>
-            <div style="text-align:center;margin-top:2.25rem">
+            <div style="text-align:center;margin-top:2.25rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
                 <a href="https://clonio.dev" target="_blank" rel="noopener" class="btn-primary btn-green">
                     Visit clonio.dev ↗
+                </a>
+                <a href="https://github.com/clonio-dev/clonio-cli" target="_blank" rel="noopener" class="btn-secondary">
+                    View on GitHub ↗
                 </a>
             </div>
         </div>
@@ -997,20 +989,16 @@ score <span class="pso">=</span> totalLogins <span class="pso">*</span> <span cl
         </div>
 
         <div class="reveal" style="display:flex;justify-content:center">
-            <div class="code-block"><span class="cc">// How Clonio fits into your Laravel workflow</span><br>
-<span class="ck">use</span> <span class="ct">App\Domain\Database\Services\ClonerService</span>;<br>
-<span class="ck">use</span> <span class="ct">App\Domain\Database\DTOs\CloneConfig</span>;<br>
+            <div class="code-block"><span class="cc"># Define transformations once in .cloning.yaml</span><br>
+<span class="ct">tables</span>:<br>
+&nbsp;&nbsp;<span class="ct">users</span>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="ct">email</span>: <span class="cf">fake</span>(<span class="cs">'email'</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="ct">name</span>:&nbsp;&nbsp;<span class="cf">mask</span>()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="ct">ssn</span>:&nbsp;&nbsp;&nbsp;<span class="cf">null</span>()<br>
 <br>
-<span class="ct">Route</span>::<span class="cf">post</span>(<span class="cs">'/api/clone'</span>, <span class="ck">function</span>(<span class="ct">Request</span> <span class="cn">$request</span>) {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">$config</span> = <span class="ck">new</span> <span class="ct">CloneConfig</span>(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source: <span class="ck">$request</span>-&gt;production_connection,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;target: <span class="ck">$request</span>-&gt;test_environment,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gdprMode: <span class="ck">true</span>,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;auditSigned: <span class="ck">true</span>,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;);<br>
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">return</span> <span class="ct">ClonerService</span>::<span class="cf">clone</span>(<span class="ck">$config</span>);<span class="cc"> // PII anonymized in-flight</span><br>
-});</div>
+<span class="cc"># Run it from your terminal or CI pipeline</span><br>
+<span class="cf">$</span> clonio clone <span class="cs">--from</span>=production <span class="cs">--to</span>=staging<span class="cc"> # PII anonymized in-flight</span><br>
+<span class="cf">$</span> clonio clone <span class="cs">--audit-sign</span><span class="cc"> # signed audit log per run</span></div>
         </div>
     </div>
 </section>
@@ -1077,8 +1065,8 @@ score <span class="pso">=</span> totalLogins <span class="pso">*</span> <span cl
             <div class="tl-item hi">
                 <div class="tl-dot"></div>
                 <div class="tl-year">Feb 2026</div>
-                <div class="tl-title">Clonio v1.0</div>
-                <div class="tl-desc">Launched Clonio — GDPR-compliant DB cloning for production teams everywhere.</div>
+                <div class="tl-title">Clonio CLI</div>
+                <div class="tl-desc">Released Clonio — an MIT-licensed, GDPR-compliant database cloning CLI for dev teams everywhere.</div>
             </div>
         </div>
     </div>
@@ -1162,7 +1150,7 @@ score <span class="pso">=</span> totalLogins <span class="pso">*</span> <span cl
                     </div>
                     <span style="font-size:0.65rem;color:var(--blue-light);background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);padding:0.15rem 0.5rem;border-radius:4px">Clonio origin</span>
                 </div>
-                <div class="pkg-desc">Clone a database with configurable value overwriting. The Artisan command that evolved into the full Clonio product.</div>
+                <div class="pkg-desc">Clone a database with configurable value overwriting. The Artisan command that evolved into the Clonio CLI.</div>
                 <div class="pkg-foot"><span class="lang-dot" style="background:#777bb4"></span>PHP</div>
             </a>
             <a href="https://github.com/rokde/laravel-utilities" target="_blank" rel="noopener" class="pkg-card reveal">
